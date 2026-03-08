@@ -1,0 +1,24 @@
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        # Step 1: Check if there are at least k nodes left
+        curr = head
+        for _ in range(k):
+            if not curr:
+                return head # Not enough nodes to reverse, return as is
+            curr = curr.next
+        
+        # Step 2: Reverse the current k nodes
+        prev = None
+        curr = head
+        for _ in range(k):
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+            
+        # Step 3: Connect the reversed group to the result of the rest of the list
+        # 'head' is now the tail of the reversed group
+        head.next = self.reverseKGroup(curr, k)
+        
+        # 'prev' is now the new head of the reversed group
+        return prev

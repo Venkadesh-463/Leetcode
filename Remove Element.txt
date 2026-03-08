@@ -1,0 +1,13 @@
+class Solution:
+    def removeElement(self, nums: list[int], val: int) -> int:
+        # 'k' tracks the position to write the next valid element
+        k = 0
+        
+        for i in range(len(nums)):
+            # If the current element is NOT the value we want to remove
+            if nums[i] != val:
+                # Move it to the front of the array at position 'k'
+                nums[k] = nums[i]
+                k += 1
+                
+        return k

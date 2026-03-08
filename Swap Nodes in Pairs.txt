@@ -1,0 +1,18 @@
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # Base case: if list is empty or has only one node
+        if not head or not head.next:
+            return head
+        
+        # Nodes to be swapped
+        first = head
+        second = head.next
+        
+        # Step 1: The 'first' node should point to the result of the rest of the list
+        first.next = self.swapPairs(second.next)
+        
+        # Step 2: The 'second' node should point to the 'first' node
+        second.next = first
+        
+        # Step 3: Return 'second' as it is now the new head of this pair
+        return second

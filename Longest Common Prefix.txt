@@ -1,0 +1,13 @@
+class Solution:
+    def longestCommonPrefix(self, strs: list[str]) -> str:
+        if not strs:
+            return ""
+        
+        # Zip characters together: ('f', 'f', 'f'), ('l', 'l', 'l'), ('o', 'o', 'i')...
+        for i, chars in enumerate(zip(*strs)):
+            # If the set of characters at this index has more than 1 unique value
+            if len(set(chars)) > 1:
+                return strs[0][:i]
+        
+        # If the loop finishes, return the shortest string in the list
+        return min(strs, key=len)
