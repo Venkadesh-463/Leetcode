@@ -1,0 +1,29 @@
+class Solution:
+    def combinationSum2(self, candidates: list[int], target: int) -> list[list[int]]:
+        results = []
+        # 1. Sort to handle duplicates and allow early exit
+        candidates.sort()
+
+        def backtrack(remain, curr_comb, start_idx):
+            if remain == 0:
+                results.append(list(curr_comb))
+                return
+            
+            for i in range(start_idx, len(candidates)):
+                # 2. Skip duplicates: if the current number is same as previous
+                # and we are at the same recursion level, it would cause a duplicate combo.
+                if i > start_idx and candidates[i] == candidates[i - 1]:
+                    continue
+                
+                # 3. Optimization: if current number exceeds remain, 
+                # all following numbers will too (since array is sorted).
+                if candidates[i] > remain:
+                    break
+                
+                curr_comb.append(candidates[i])
+                # 4. Move to i + 1 so we don't reuse the same element
+                backtrack(remain - candidates[i], curr_comb, i + 1)
+                curr_comb.pop()
+
+        backtrack(target, [], 0)
+        return results

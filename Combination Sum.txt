@@ -1,0 +1,23 @@
+class Solution:
+    def combinationSum(self, candidates: list[int], target: int) -> list[list[int]]:
+        results = []
+
+        def backtrack(remain, curr_comb, start_idx):
+            if remain == 0:
+                # Target reached, add a copy of current combination
+                results.append(list(curr_comb))
+                return
+            elif remain < 0:
+                # Exceeded target, stop this path
+                return
+
+            for i in range(start_idx, len(candidates)):
+                # 1. Add number to the current path
+                curr_comb.append(candidates[i])
+                # 2. Recurse: stay at index 'i' to allow using same number again
+                backtrack(remain - candidates[i], curr_comb, i)
+                # 3. Backtrack: remove number to try the next candidate
+                curr_comb.pop()
+
+        backtrack(target, [], 0)
+        return results

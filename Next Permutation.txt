@@ -1,0 +1,25 @@
+class Solution:
+    def nextPermutation(self, nums: list[int]) -> None:
+        n = len(nums)
+        pivot = -1
+        
+        # 1. Find the largest index i such that nums[i] < nums[i + 1]
+        for i in range(n - 2, -1, -1):
+            if nums[i] < nums[i + 1]:
+                pivot = i
+                break
+        
+        # 2. If no such index exists, the array is in descending order
+        if pivot == -1:
+            nums.reverse()
+            return
+        
+        # 3. Find the largest index j > pivot such that nums[j] > nums[pivot]
+        for j in range(n - 1, pivot, -1):
+            if nums[j] > nums[pivot]:
+                # 4. Swap them
+                nums[pivot], nums[j] = nums[j], nums[pivot]
+                break
+        
+        # 5. Reverse the sub-array to the right of the pivot
+        nums[pivot + 1:] = reversed(nums[pivot + 1:])

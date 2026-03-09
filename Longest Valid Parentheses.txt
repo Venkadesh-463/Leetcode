@@ -1,0 +1,22 @@
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        # Initialize stack with -1 as a starting boundary
+        stack = [-1]
+        max_length = 0
+        
+        for i, char in enumerate(s):
+            if char == '(':
+                # Push the index of the opening parenthesis
+                stack.append(i)
+            else:
+                # Pop the last index (matching '(' or the last boundary)
+                stack.pop()
+                
+                if not stack:
+                    # If stack is empty, this ')' is a new boundary
+                    stack.append(i)
+                else:
+                    # Current length = current index - index of the last boundary
+                    max_length = max(max_length, i - stack[-1])
+        
+        return max_length
