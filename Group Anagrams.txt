@@ -1,0 +1,17 @@
+from collections import defaultdict
+
+class Solution:
+    def groupAnagrams(self, strs: list[str]) -> list[list[str]]:
+        # 1. Use a dictionary where the key is the sorted string
+        anagram_map = defaultdict(list)
+        
+        for s in strs:
+            # 2. Sort the string to create a unique key for all its anagrams
+            # Sorted "eat", "tea", and "ate" all become "aet"
+            key = "".join(sorted(s))
+            
+            # 3. Append the original string to the list corresponding to that key
+            anagram_map[key].append(s)
+            
+        # 4. Return all grouped values as a list of lists
+        return list(anagram_map.values())

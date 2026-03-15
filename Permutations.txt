@@ -1,0 +1,24 @@
+class Solution:
+    def permute(self, nums: list[int]) -> list[list[int]]:
+        res = []
+        
+        def backtrack(curr_perm):
+            # If the current permutation is full length, add it to results
+            if len(curr_perm) == len(nums):
+                res.append(list(curr_perm))
+                return
+            
+            for num in nums:
+                # If the number is already in the current path, skip it
+                if num in curr_perm:
+                    continue
+                
+                # 1. Choose: add the number
+                curr_perm.append(num)
+                # 2. Explore: recurse to the next level
+                backtrack(curr_perm)
+                # 3. Un-choose: remove the number to try another path
+                curr_perm.pop()
+        
+        backtrack([])
+        return res

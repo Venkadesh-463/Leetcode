@@ -1,0 +1,36 @@
+class Solution:
+    def permuteUnique(self, nums: list[int]) -> list[list[int]]:
+        res = []
+        # 1. Sort to keep duplicates adjacent
+        nums.sort()
+        # Track which elements are currently in the path
+        used = [False] * len(nums)
+        
+        def backtrack(curr_perm):
+            if len(curr_perm) == len(nums):
+                res.append(list(curr_perm))
+                return
+            
+            for i in range(len(nums)):
+                # Skip if this element is already used in current path
+                if used[i]:
+                    continue
+                
+                # 2. Skip duplicates: if current is same as previous AND 
+                # previous was NOT used (meaning it was just backtracked from)
+                if i > 0 and nums[i] == nums[i-1] and not used[i-1]:
+                    continue
+                
+                # Choose
+                used[i] = True
+                curr_perm.append(nums[i])
+                
+                # Explore
+                backtrack(curr_perm)
+                
+                # Un-choose (Backtrack)
+                used[i] = False
+                curr_perm.pop()
+        
+        backtrack([])
+        return res
