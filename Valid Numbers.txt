@@ -1,0 +1,37 @@
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        # Flags to track what we have seen so far
+        digit_seen = False
+        exponent_seen = False
+        dot_seen = False
+        
+        for i, char in enumerate(s):
+            if char.isdigit():
+                digit_seen = True
+            
+            elif char in "+-":
+                # Signs can only appear at the start or immediately after 'e/E'
+                if i > 0 and s[i - 1] not in "eE":
+                    return False
+            
+            elif char in "eE":
+                # 'e' can only appear once and must be preceded by a digit
+                if exponent_seen or not digit_seen:
+                    return False
+                exponent_seen = True
+                # Reset digit_seen because 'e' must be followed by a new integer
+                digit_seen = False
+            
+            elif char == ".":
+                # Dot can only appear once and cannot appear after an exponent
+                if dot_seen or exponent_seen:
+                    return False
+                dot_seen = True
+                
+            else:
+                # Any other character (like 'a') is invalid
+                return False
+        
+        # The string is valid only if at least one digit was found 
+        # (covers cases like "." or "e")
+        return digit_seen

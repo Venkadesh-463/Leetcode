@@ -1,0 +1,22 @@
+class Solution:
+    def sortColors(self, nums: list[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        low, mid = 0, 0
+        high = len(nums) - 1
+        
+        while mid <= high:
+            if nums[mid] == 0:
+                # Found a Red (0): Swap with 'low' and move both pointers
+                nums[low], nums[mid] = nums[mid], nums[low]
+                low += 1
+                mid += 1
+            elif nums[mid] == 1:
+                # Found a White (1): It's in the right place, just move 'mid'
+                mid += 1
+            else: # nums[mid] == 2
+                # Found a Blue (2): Swap with 'high' and move 'high' down
+                # Don't move 'mid' yet because the swapped value needs checking
+                nums[mid], nums[high] = nums[high], nums[mid]
+                high -= 1

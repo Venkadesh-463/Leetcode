@@ -1,0 +1,22 @@
+class Solution:
+    def simplifyPath(self, path: str) -> str:
+        stack = []
+        
+        # Split by '/' - multiple slashes result in empty strings ''
+        # Examples: "/home//foo" -> ["", "home", "", "foo"]
+        parts = path.split("/")
+        
+        for part in parts:
+            if part == "..":
+                # Go up one level if possible
+                if stack:
+                    stack.pop()
+            elif part == "." or not part:
+                # Current directory or empty string (from //), do nothing
+                continue
+            else:
+                # Valid directory or file name (like "...", "home", "a")
+                stack.append(part)
+        
+        # Join with single slashes and ensure it starts with '/'
+        return "/" + "/".join(stack)

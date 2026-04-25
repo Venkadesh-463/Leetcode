@@ -1,0 +1,15 @@
+class Solution:
+    def plusOne(self, digits: list[int]) -> list[int]:
+        # Iterate from the last digit to the first
+        for i in range(len(digits) - 1, -1, -1):
+            if digits[i] < 9:
+                # If digit is 0-8, increment and we are done
+                digits[i] += 1
+                return digits
+            
+            # If digit is 9, it becomes 0 and carry moves to the left
+            digits[i] = 0
+        
+        # If the loop finishes, it means we had all 9s (e.g., [9, 9, 9])
+        # We need to add a 1 at the beginning
+        return [1] + digits
