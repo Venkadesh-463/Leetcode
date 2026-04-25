@@ -1,0 +1,32 @@
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        res = []
+        
+        # If the string is too long or too short for a valid IP, return empty
+        if len(s) < 4 or len(s) > 12:
+            return res
+
+        def backtrack(start, dots, current_ip):
+            # Base Case: If we have 4 segments and reached the end of the string
+            if dots == 4:
+                if start == len(s):
+                    res.append(current_ip[:-1]) # Remove the trailing dot
+                return
+
+            # Try segments of length 1, 2, and 3
+            for length in range(1, 4):
+                if start + length > len(s):
+                    break
+                
+                segment = s[start : start + length]
+                
+                # Validation rules:
+                # 1. No leading zeros (unless the segment is just "0")
+                # 2. Value must be <= 255
+                if (segment.startswith('0') and len(segment) > 1) or int(segment) > 255:
+                    continue
+                
+                backtrack(start + length, dots + 1, current_ip + segment + ".")
+
+        backtrack(0, 0, "")
+        return res

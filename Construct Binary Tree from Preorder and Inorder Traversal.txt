@@ -1,0 +1,30 @@
+class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        # Map values to their indices for O(1) lookup
+        inorder_map = {val: i for i, val in enumerate(inorder)}
+        
+        # Pointer to track our position in the preorder list
+        self.pre_idx = 0
+        
+        def array_to_tree(left, right):
+            # Base case: if there are no elements to construct the tree
+            if left > right:
+                return None
+            
+            # 1. Pick the current element from preorder as the root
+            root_val = preorder[self.pre_idx]
+            root = TreeNode(root_val)
+            self.pre_idx += 1
+            
+            # 2. Find the root's index in the inorder list
+            mid = inorder_map[root_val]
+            
+            # 3. Recursively build the left and right subtrees
+            # Everything to the left of 'mid' in inorder is the left subtree
+            root.left = array_to_tree(left, mid - 1)
+            # Everything to the right of 'mid' in inorder is the right subtree
+            root.right = array_to_tree(mid + 1, right)
+            
+            return root
+        
+        return array_to_tree(0, len(inorder) - 1)
