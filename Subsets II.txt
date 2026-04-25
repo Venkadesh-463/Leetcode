@@ -1,0 +1,21 @@
+class Solution:
+    def subsetsWithDup(self, nums: list[int]) -> list[list[int]]:
+        # 1. Sort to bring duplicates together
+        nums.sort()
+        res = []
+        
+        def backtrack(start, path):
+            res.append(list(path))
+            
+            for i in range(start, len(nums)):
+                # 2. Skip duplicates: if the current element is the same as 
+                # the previous one AND we are not at the 'start' index, skip it.
+                if i > start and nums[i] == nums[i-1]:
+                    continue
+                
+                path.append(nums[i])
+                backtrack(i + 1, path)
+                path.pop()
+        
+        backtrack(0, [])
+        return res

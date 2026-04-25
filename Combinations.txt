@@ -1,0 +1,22 @@
+class Solution:
+    def combine(self, n: int, k: int) -> list[list[int]]:
+        res = []
+        
+        def backtrack(start, path):
+            # If the combination is done
+            if len(path) == k:
+                res.append(list(path))
+                return
+            
+            # Iterate through the range starting from 'start'
+            # We can optimize the range: n - (k - len(path)) + 2
+            for i in range(start, n + 1):
+                # Add i into the current combination
+                path.append(i)
+                # Use next integers to complete the combination
+                backtrack(i + 1, path)
+                # Backtrack: remove i from the combination
+                path.pop()
+        
+        backtrack(1, [])
+        return res

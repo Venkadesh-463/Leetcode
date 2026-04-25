@@ -1,0 +1,18 @@
+class Solution:
+    def removeDuplicates(self, nums: list[int]) -> int:
+        # If the list has 2 or fewer elements, it already meets the condition
+        if len(nums) <= 2:
+            return len(nums)
+        
+        # 'k' is the pointer where the next valid element should be placed
+        # We start at index 2 because the first two elements are always allowed
+        k = 2
+        
+        for i in range(2, len(nums)):
+            # Check if the current element is different from the one 
+            # placed two positions ago.
+            if nums[i] != nums[k - 2]:
+                nums[k] = nums[i]
+                k += 1
+                
+        return k

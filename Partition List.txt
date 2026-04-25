@@ -1,0 +1,36 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        # Create two dummy nodes to act as heads for the two partitions
+        before_head = ListNode(0)
+        after_head = ListNode(0)
+        
+        # Pointers to track the last node in each partition
+        before = before_head
+        after = after_head
+        
+        while head:
+            # If current node is smaller than x, add to 'before' list
+            if head.val < x:
+                before.next = head
+                before = before.next
+            # Otherwise, add to 'after' list
+            else:
+                after.next = head
+                after = after.next
+            
+            # Move to the next node in original list
+            head = head.next
+        
+        # Important: Terminate the 'after' list to avoid cycles
+        after.next = None
+        
+        # Connect the end of 'before' list to the head of 'after' list
+        before.next = after_head.next
+        
+        return before_head.next

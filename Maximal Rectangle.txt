@@ -1,0 +1,25 @@
+class Solution:
+    def maximalRectangle(self, matrix: list[list[str]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        
+        cols = len(matrix[0])
+        heights = [0] * (cols + 1) # Extra 0 at the end to flush the stack
+        max_area = 0
+        
+        for row in matrix:
+            # Update heights for the current row acting as a histogram base
+            for i in range(cols):
+                # If '1', increase height; if '0', reset height to 0
+                heights[i] = heights[i] + 1 if row[i] == '1' else 0
+            
+            # Use the "Largest Rectangle in Histogram" logic for this row
+            stack = []
+            for i, h in enumerate(heights):
+                while stack and heights[stack[-1]] >= h:
+                    height = heights[stack.pop()]
+                    width = i if not stack else i - stack[-1] - 1
+                    max_area = max(max_area, height * width)
+                stack.append(i)
+                
+        return max_area
